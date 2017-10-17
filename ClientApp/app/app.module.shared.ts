@@ -1,3 +1,4 @@
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -14,7 +15,8 @@ export const sharedConfig: NgModule = {
         NavMenuComponent,
         CounterComponent,
         FetchDataComponent,
-        HomeComponent
+        HomeComponent,
+        NavbarComponent
     ],
     imports: [
         RouterModule.forRoot([

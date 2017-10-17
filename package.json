@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "dependencies": {
     "@angular/animations": "4.1.2",
-    "@angular/cli": "^1.4.7",
     "@angular/common": "4.1.2",
     "@angular/compiler": "4.1.2",
     "@angular/core": "4.1.2",
@@ -42,5 +41,8 @@
     "webpack-hot-middleware": "2.18.0",
     "webpack-merge": "4.1.0",
     "zone.js": "0.8.10"
+  },
+  "devDependencies": {
+    "@angular/cli": "^1.4.7"
   }
 }
