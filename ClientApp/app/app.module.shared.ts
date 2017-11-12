@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { ProductManagerComponent } from './admin/product-manager/product-manager.component';
@@ -54,7 +53,6 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
         CommonModule,
         HttpModule,
         FormsModule,
-        NgbModule.forRoot(),
         BsDropdownModule.forRoot(),
         RouterModule.forRoot([
             { path: 'home', component: HomeComponent},
