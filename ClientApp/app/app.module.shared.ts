@@ -1,3 +1,6 @@
+import { AdminAuthGuard } from './services/admin-auth-guard.service';
+import { AuthGuard } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
 import { RankingMainComponent } from './ranking/ranking-main/ranking-main.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -55,21 +58,26 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
         FormsModule,
         BsDropdownModule.forRoot(),
         RouterModule.forRoot([
+            { path: '*', component: HomeComponent},
+            { path: '', component: HomeComponent},
             { path: 'home', component: HomeComponent},
             { path: 'catalog', component: MainCatalogComponent},
             { path: 'ranking', component: RankingMainComponent},
             { path: 'login', component: LoginComponent},
-            { path: 'my-feedback', component: MyFeedbackComponent},
-            { path: 'add-product', component: AddedProductsComponent},
-            { path: 'favorite-products', component: FavoriteProductsComponent},
-            { path: 'added-products', component: AddedProductsComponent},
-            { path: 'my-products', component: MyProductsComponent},
-            { path: 'admin', component: AdminPanelComponent},
-            { path: 'admin/product-manager', component: ProductManagerComponent},
-            { path: 'admin/users', component: UsersComponent},
-            { path: '*', component: HomeComponent},
-            { path: '', component: HomeComponent},
+            { path: 'my-feedback', component: MyFeedbackComponent, canActivate: [AuthGuard]},
+            { path: 'add-product', component: AddedProductsComponent, canActivate: [AuthGuard]},
+            { path: 'favorite-products', component: FavoriteProductsComponent, canActivate: [AuthGuard]},
+            { path: 'added-products', component: AddedProductsComponent, canActivate: [AuthGuard]},
+            { path: 'my-products', component: MyProductsComponent, canActivate: [AuthGuard]},
+            { path: 'admin', component: AdminPanelComponent, canActivate: [AdminAuthGuard]},
+            { path: 'admin/product-manager', component: ProductManagerComponent, canActivate: [AdminAuthGuard]},
+            { path: 'admin/users', component: UsersComponent, canActivate: [AdminAuthGuard]}
         ])
+    ],
+    providers: [
+        AuthService,
+        AuthGuard,
+        AdminAuthGuard
     ]
 })
 export class AppModuleShared {

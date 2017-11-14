@@ -15,22 +15,22 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/ranking">Ranking</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="login">Login</a>
+      <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+        <a class="nav-link login-link" routerLink="login">Login</a>
       </li>
-      <li>
+      <li *ngIf="authService.isLoggedIn()">
         <div class="btn-group" dropdown>
           <button dropdownToggle type="button" class="btn btn-outline-success dropdown-toggle">
-            Username <span class="caret"></span>
+            {{ authService.currentUser.name }} <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem"><a class="dropdown-item" routerLink="my-feedback">My Feedback</a></li>
             <li role="menuitem"><a class="dropdown-item" routerLink="favorite-products">Favorite Products</a></li>
             <li role="menuitem"><a class="dropdown-item" routerLink="my-products">My Products</a></li>
             <li class="divider dropdown-divider"></li>
-            <li role="menuitem"><a class="dropdown-item" routerLink="/admin">Admin Panel</a>
+            <li *ngIf="authService.currentUser.admin" role="menuitem"><a class="dropdown-item" routerLink="/admin">Admin Panel</a>
             </li>
-            <li role="menuitem"><a class="dropdown-item" href="#">Logout</a>
+            <li role="menuitem"><a class="dropdown-item" (click)="authService.logout()">Logout</a>
             </li>
           </ul>
         </div>
