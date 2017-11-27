@@ -1,3 +1,25 @@
-<p>
-  main-catalog works!
-</p>
+<div class="container catalog-container">
+  <div class="row">
+    <div class="col-3">
+      <div class="sticky-top">
+        <div class="list-group">
+          <a href="" class="list-group-item list-group-item-success active">All categories</a>
+          <a href="" class="list-group-item list-group-item-success">Mice</a>
+          <a href="" class="list-group-item list-group-item-success">Keyboards</a>
+          <a href="" class="list-group-item list-group-item-success">Headsets</a>
+          <a href="" class="list-group-item list-group-item-success">Accesories</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="row">
+          <ng-container *ngFor="let p of products ; let i = index">
+              <div class="col">
+                <app-product-card [product]="p"></app-product-card>
+              </div>
+              <div *ngIf="(i + 1) % 2 === 0" class="w-100"></div>
+            </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

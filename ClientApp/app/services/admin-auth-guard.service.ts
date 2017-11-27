@@ -12,7 +12,7 @@ export class AdminAuthGuard implements CanActivate {
     if (!this.authService.currentUser) return false;
     if (this.authService.currentUser.admin) return true;
 
-    //this.router.navigate(['/home']);
+    this.router.navigate(['']);
     return false;
   }
 }

@@ -3,14 +3,8 @@ import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
-  currentUser: any;
 
   constructor() {
-    if (typeof window !== 'undefined') {
-      let token = localStorage.getItem('token');
-      if (token) this.currentUser = new JwtHelper().decodeToken(token);
-      console.log('in constructor');
-    }
   }
 
   //Mock login for frontend testing
@@ -23,14 +17,11 @@ export class AuthService {
 
     if (login == "Admin" && password == "123") {
       localStorage.setItem('token', tokenAdmin);
-      this.currentUser = new JwtHelper().decodeToken(tokenAdmin);
-      console.log(this.currentUser);
       return true;
     }
 
     if (login == "User" && password == "123") {
       localStorage.setItem('token', tokenUser);
-      this.currentUser = new JwtHelper().decodeToken(tokenUser);
       console.log(this.currentUser);
       return true;
     }
@@ -40,13 +31,18 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
-    this.currentUser = null;
   }
 
   isLoggedIn() {
     if (typeof window !== 'undefined') {
       return tokenNotExpired();
     }
+  }
+
+  get currentUser() {
+    let token = localStorage.getItem('token');
+    if (token) return new JwtHelper().decodeToken(token);
+    return null;
   }
 
 }

@@ -1,3 +1,5 @@
+import { ProductService } from './../../services/product.service';
+import { Product } from '../../shared/models/product';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
@@ -7,10 +9,16 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class MainCatalogComponent implements OnInit {
+  products: Product[];
 
-  constructor() { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit() {
+    this.productService.getProducts()
+    .subscribe(
+      products => {
+        this.products = products;
+      });
   }
 
 }

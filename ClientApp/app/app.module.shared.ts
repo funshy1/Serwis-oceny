@@ -1,3 +1,5 @@
+import { ProductService } from './services/product.service';
+import { ProductCardComponent } from './shared/components/product-card/product-card.component';
 import { AdminAuthGuard } from './services/admin-auth-guard.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
@@ -50,7 +52,8 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
         UsersComponent,
         ProductManagerComponent,
         AdminPanelComponent,
-        RankingMainComponent
+        RankingMainComponent,
+        ProductCardComponent
     ],
     imports: [
         CommonModule,
@@ -77,7 +80,8 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
     providers: [
         AuthService,
         AuthGuard,
-        AdminAuthGuard
+        AdminAuthGuard,
+        ProductService
     ]
 })
 export class AppModuleShared {
