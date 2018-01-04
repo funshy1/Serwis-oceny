@@ -1,7 +1,3 @@
-# Serwis-oceny
-Nasza piękna praca na DTAS
-
-
 # Wazne komendy:
 
 na początek:<br />
