@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -26,6 +27,18 @@ namespace dotnetapp
         {
             services.AddMvc();
             services.AddOptions();
+
+            services.AddAuthentication(options =>
+               {
+                   options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                   options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+               }).AddJwtBearer(options =>
+               {
+                   options.Authority = "https://dtas.auth0.com/";
+                   options.Audience = "https://api.dtas.com";
+               });
+
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddDbContext<ServiceDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
         }
@@ -47,6 +60,8 @@ namespace dotnetapp
             }
 
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

@@ -1,7 +1,5 @@
 import { ProductService } from './services/product.service';
 import { ProductCardComponent } from './shared/components/product-card/product-card.component';
-import { AdminAuthGuard } from './services/admin-auth-guard.service';
-import { AuthGuard } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { RankingMainComponent } from './ranking/ranking-main/ranking-main.component';
 import { CommonModule } from '@angular/common';
@@ -13,7 +11,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { ProductManagerComponent } from './admin/product-manager/product-manager.component';
 import { UsersComponent } from './admin/users/users.component';
-import { LoginComponent } from './auth/login/login.component';
 import { MainCatalogComponent } from './catalog/main-catalog/main-catalog.component';
 import { SearchBoxComponent } from './catalog/search-box/search-box.component';
 import { SideMenuComponent } from './catalog/side-menu/side-menu.component';
@@ -44,7 +41,6 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
         MainCatalogComponent,
         TopByCategoryComponent,
         MyFeedbackComponent,
-        LoginComponent,
         FavoriteProductsComponent,
         MyProductsComponent,
         AddProductComponent,
@@ -66,21 +62,18 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
             { path: 'home', component: HomeComponent},
             { path: 'catalog', component: MainCatalogComponent},
             { path: 'ranking', component: RankingMainComponent},
-            { path: 'login', component: LoginComponent},
-            { path: 'my-feedback', component: MyFeedbackComponent, canActivate: [AuthGuard]},
-            { path: 'add-product', component: AddedProductsComponent, canActivate: [AuthGuard]},
-            { path: 'favorite-products', component: FavoriteProductsComponent, canActivate: [AuthGuard]},
-            { path: 'added-products', component: AddedProductsComponent, canActivate: [AuthGuard]},
-            { path: 'my-products', component: MyProductsComponent, canActivate: [AuthGuard]},
-            { path: 'admin', component: AdminPanelComponent, canActivate: [AdminAuthGuard]},
-            { path: 'admin/product-manager', component: ProductManagerComponent, canActivate: [AdminAuthGuard]},
-            { path: 'admin/users', component: UsersComponent, canActivate: [AdminAuthGuard]}
+            { path: 'my-feedback', component: MyFeedbackComponent, },
+            { path: 'add-product', component: AddedProductsComponent, },
+            { path: 'favorite-products', component: FavoriteProductsComponent, },
+            { path: 'added-products', component: AddedProductsComponent, },
+            { path: 'my-products', component: MyProductsComponent, },
+            { path: 'admin', component: AdminPanelComponent, },
+            { path: 'admin/product-manager', component: ProductManagerComponent, },
+            { path: 'admin/users', component: UsersComponent, }
         ])
     ],
     providers: [
         AuthService,
-        AuthGuard,
-        AdminAuthGuard,
         ProductService
     ]
 })
