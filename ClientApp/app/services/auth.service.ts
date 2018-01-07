@@ -9,8 +9,8 @@ export class AuthService {
 
   //Mock login for frontend testing
   login(credentials: any) {
-    let tokenAdmin = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFkbWluIiwiYWRtaW4iOnRydWV9.hExZk4rwAnlSXfDylO1H726fNB1NJvENAC5u-6kYcC0';
-    let tokenUser = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlVzZXIiLCJhZG1pbiI6ZmFsc2V9.rvG2YkisUFNTpLPCIO4qNjBFgqCZ4VkWK2Ok57VSUHg';
+    let tokenAdmin = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFkbWluIiwiYWRtaW4iOnRydWUsImlkIjoxfQ.0S7SjpIVLrTdZVYP-gO8jLtNyj_QhLbppObzDMahxoU';
+    let tokenUser = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlVzZXIiLCJhZG1pbiI6ZmFsc2UsImlkIjoyfQ.P2JWO1RGH7yChLV2SyyKovzpyU1a6Lzru19biX13uvA';
 
     let login = credentials.login;
     let password = credentials.password;
