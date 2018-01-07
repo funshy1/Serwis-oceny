@@ -235,3 +235,8 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+# ASP.NET Core appsettings
+appsettings.json
+appsettings.production.json
+appsettings.development.json
