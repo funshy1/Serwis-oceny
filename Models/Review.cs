@@ -6,6 +6,6 @@ namespace projekt.Models
         public float Rating { get; set; }
         public string Text { get; set; }
         public string UserId { get; set; }
-        public Product Product { get; set; }
+        public int ProductId { get; set; }
     }
 }

@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using projekt.Models;
 
 namespace projekt.Persistence
@@ -12,18 +15,49 @@ namespace projekt.Persistence
             this.context = context;
         }
 
-        public IEnumerable<Product> GetProducts()
+        public async Task<IEnumerable<Product>> GetProducts(Filter filter)
         {
-            return this.context.Products;
-            // return new Collection<Product>() {
-            //     new Product() { Id = 1, Name = "Mouse", ImageUrl = "https://images10.newegg.com/NeweggImage/ProductImage/26-153-231-V02.jpg" },
-            //     new Product() { Id = 2, Name = "Mouse2", ImageUrl = "https://multimedia.bbycastatic.ca/multimedia/products/500x500/104/10497/10497231.jpg" },
-            //     new Product() { Id = 3, Name = "Keyboard", ImageUrl = "https://images10.newegg.com/ProductImage/23-828-003-28.jpg" },
-            //     new Product() { Id = 4, Name = "Keyboard2", ImageUrl = "https://images10.newegg.com/ProductImage/23-828-011-V05.jpg" },
-            //     new Product() { Id = 5, Name = "Headset", ImageUrl = "https://images10.newegg.com/ProductImage/26-197-105-09.jpg" },
-            //     new Product() { Id = 6, Name = "Headset2", ImageUrl = "http://bpc.h-cdn.co/assets/17/09/480x480/gallery-1488659377-logitech-prodigy-gaming-headset.jpg" },
-            // };
+            var query =  this.context.Products
+                .Include(p => p.Reviews)
+                .Include(p => p.Category)
+                .AsQueryable();
 
+            if (filter.CategoryId.HasValue)
+                query = query.Where(p => p.Category.Id == filter.CategoryId);
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<Product> GetProductById(int id, bool includeReviews = true) {
+            if (!includeReviews)
+                return await context.Products.FindAsync(id);
+
+            return await context.Products
+                .Include(p => p.Reviews)
+                .Include(p => p.Category)
+                .SingleOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<IEnumerable<Product>> GetUserProducts(string userId, bool includeReviews = true) {
+            if (!includeReviews)
+                return await context.Products
+                    .Include(p => p.Category)
+                    .Where(p => p.UserId == userId)
+                    .ToArrayAsync();
+
+            return await context.Products
+                .Include(p => p.Reviews)
+                .Include(p => p.Category)
+                .Where(p => p.UserId == userId)
+                .ToArrayAsync();
+        }
+
+        public void Add(Product product) {
+            context.Products.Add(product);
+        }
+
+        public void Remove(Product product) {
+            context.Remove(product);
         }
     }
 }
