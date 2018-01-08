@@ -11,8 +11,8 @@ using System;
 namespace dotnetapp.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20180105191905_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20180108152640_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,11 +34,9 @@ namespace dotnetapp.Migrations
 
                     b.Property<float>("Rating");
 
-                    b.Property<int?>("UserId");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Products");
                 });
@@ -54,40 +52,13 @@ namespace dotnetapp.Migrations
 
                     b.Property<string>("Text");
 
-                    b.Property<int?>("UserId");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("projekt.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("PhoneNumber");
-
-                    b.Property<string>("PictureUrl");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("projekt.Models.Product", b =>
-                {
-                    b.HasOne("projekt.Models.User", "User")
-                        .WithMany("Products")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("projekt.Models.Review", b =>
@@ -95,10 +66,6 @@ namespace dotnetapp.Migrations
                     b.HasOne("projekt.Models.Product", "Product")
                         .WithMany("Reviews")
                         .HasForeignKey("ProductId");
-
-                    b.HasOne("projekt.Models.User", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

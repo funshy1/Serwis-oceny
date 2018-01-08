@@ -9,7 +9,5 @@ namespace projekt.Models
         public string Email { get; set; }
         public int PhoneNumber { get; set; }
         public string PictureUrl { get; set; }
-        public IEnumerable<Review> Reviews { get; set; }
-        public IEnumerable<Product> Products { get; set; }
     }
 }

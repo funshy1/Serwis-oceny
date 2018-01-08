@@ -9,7 +9,7 @@ namespace projekt.Models
         public string ImageUrl { get; set; }
         public string Description { get; set; }
         public float Rating { get; set; }
-        public User User { get; set; }
+        public string UserId { get; set; }
         public IEnumerable<Review> Reviews { get; set; }
     }
 }

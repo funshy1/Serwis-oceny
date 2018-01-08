@@ -7,7 +7,6 @@ namespace projekt.Persistence
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<User> Users { get; set; }
 
         public ServiceDbContext(DbContextOptions<ServiceDbContext> options): base(options)
         {
