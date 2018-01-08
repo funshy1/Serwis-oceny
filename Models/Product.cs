@@ -11,5 +11,6 @@ namespace projekt.Models
         public float Rating { get; set; }
         public string UserId { get; set; }
         public IEnumerable<Review> Reviews { get; set; }
+        public Category Category { get; set; }
     }
 }
