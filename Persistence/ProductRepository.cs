@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace projekt.Persistence
 
             if (filter.CategoryId.HasValue)
                 query = query.Where(p => p.Category.Id == filter.CategoryId);
+            if (!String.IsNullOrEmpty(filter.UserId))
+                query = query.Where(p => p.UserId == filter.UserId);
 
             return await query.ToListAsync();
         }
@@ -36,20 +39,6 @@ namespace projekt.Persistence
                 .Include(p => p.Reviews)
                 .Include(p => p.Category)
                 .SingleOrDefaultAsync(p => p.Id == id);
-        }
-
-        public async Task<IEnumerable<Product>> GetUserProducts(string userId, bool includeReviews = true) {
-            if (!includeReviews)
-                return await context.Products
-                    .Include(p => p.Category)
-                    .Where(p => p.UserId == userId)
-                    .ToArrayAsync();
-
-            return await context.Products
-                .Include(p => p.Reviews)
-                .Include(p => p.Category)
-                .Where(p => p.UserId == userId)
-                .ToArrayAsync();
         }
 
         public void Add(Product product) {
