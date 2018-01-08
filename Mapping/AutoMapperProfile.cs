@@ -9,10 +9,10 @@ namespace projekt.Mapping
         public AutoMapperProfile()
         {
             // Domain to API
-            CreateMap<Filter, FilterResource>();
+            CreateMap<ProductQuery, ProductQueryResource>();
 
             //API to Domain
-            CreateMap<FilterResource, Filter>();
+            CreateMap<ProductQueryResource, ProductQuery>();
         }
     }
 }

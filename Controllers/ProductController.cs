@@ -24,12 +24,12 @@ namespace projekt.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Product>> GetProducts(FilterResource filterResource)
+        public async Task<QueryResult<Product>> GetProducts(ProductQueryResource filterResource)
         {
-            var filter = mapper.Map<FilterResource, Filter>(filterResource);
-            var products = await repository.GetProducts(filter);
+            var filter = mapper.Map<ProductQueryResource, ProductQuery>(filterResource);
+            var queryResult = await repository.GetProducts(filter);
 
-            return products;
+            return queryResult;
         }
 
         [HttpGet("{id}")]

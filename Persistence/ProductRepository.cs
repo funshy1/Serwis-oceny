@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using projekt.Extensions;
 using projekt.Models;
 
 namespace projekt.Persistence
@@ -16,22 +18,38 @@ namespace projekt.Persistence
             this.context = context;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts(Filter filter)
+        public async Task<QueryResult<Product>> GetProducts(ProductQuery queryObject)
         {
-            var query =  this.context.Products
+            var result = new QueryResult<Product>();
+
+            var query = this.context.Products
                 .Include(p => p.Reviews)
                 .Include(p => p.Category)
                 .AsQueryable();
 
-            if (filter.CategoryId.HasValue)
-                query = query.Where(p => p.Category.Id == filter.CategoryId);
-            if (!String.IsNullOrEmpty(filter.UserId))
-                query = query.Where(p => p.UserId == filter.UserId);
+            if (queryObject.CategoryId.HasValue)
+                query = query.Where(p => p.Category.Id == queryObject.CategoryId);
+            if (!String.IsNullOrEmpty(queryObject.UserId))
+                query = query.Where(p => p.UserId == queryObject.UserId);
 
-            return await query.ToListAsync();
+            var map = new Dictionary<string, Expression<Func<Product, object>>>()
+            {
+                ["name"] = p => p.Name,
+                ["rating"] = p => p.Rating,
+                ["category"] = p => p.Category.Name,
+                ["reviewCount"] = p => p.Reviews.Count()
+            };
+ 
+            query = query.ApplyOrdering(queryObject, map);
+            result.TotalItems = await query.CountAsync();
+            query = query.ApplyPaging(queryObject);
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
 
-        public async Task<Product> GetProductById(int id, bool includeReviews = true) {
+        public async Task<Product> GetProductById(int id, bool includeReviews = true)
+        {
             if (!includeReviews)
                 return await context.Products.FindAsync(id);
 
@@ -41,11 +59,13 @@ namespace projekt.Persistence
                 .SingleOrDefaultAsync(p => p.Id == id);
         }
 
-        public void Add(Product product) {
+        public void Add(Product product)
+        {
             context.Products.Add(product);
         }
 
-        public void Remove(Product product) {
+        public void Remove(Product product)
+        {
             context.Remove(product);
         }
     }
