@@ -24,18 +24,25 @@ namespace projekt.Controllers
         }
 
         [HttpGet]
-        public async Task<QueryResult<Product>> GetProducts(ProductQueryResource filterResource)
+        public async Task<QueryResultResource<Product>> GetProducts(ProductQueryResource filterResource)
         {
             var filter = mapper.Map<ProductQueryResource, ProductQuery>(filterResource);
             var queryResult = await repository.GetProducts(filter);
 
-            return queryResult;
+            return mapper.Map<QueryResult<Product>, QueryResultResource<Product>>(queryResult);
         }
 
         [HttpGet("{id}")]
-        public async Task<Product> GetProduct(int id)
+        public async Task<IActionResult> GetProduct(int id)
         {
-            return await repository.GetProductById(id);;
+            var product = await repository.GetProductById(id);
+
+            if (product == null)
+                return NotFound();
+
+            var productResource = mapper.Map<Product, ProductResource>(product);
+            
+            return Ok(productResource);
         }
 
     }

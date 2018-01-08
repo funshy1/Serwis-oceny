@@ -10,9 +10,11 @@ namespace projekt.Mapping
         {
             // Domain to API
             CreateMap<ProductQuery, ProductQueryResource>();
+            CreateMap<Product, ProductResource>();
 
             //API to Domain
             CreateMap<ProductQueryResource, ProductQuery>();
+            CreateMap<ProductResource, Product>();
         }
     }
 }
