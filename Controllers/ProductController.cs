@@ -24,12 +24,12 @@ namespace projekt.Controllers
         }
 
         [HttpGet]
-        public async Task<QueryResultResource<Product>> GetProducts(ProductQueryResource filterResource)
+        public async Task<QueryResultResource<ProductResource>> GetProducts(ProductQueryResource filterResource)
         {
             var filter = mapper.Map<ProductQueryResource, ProductQuery>(filterResource);
             var queryResult = await repository.GetProducts(filter);
 
-            return mapper.Map<QueryResult<Product>, QueryResultResource<Product>>(queryResult);
+            return mapper.Map<QueryResult<Product>, QueryResultResource<ProductResource>>(queryResult);
         }
 
         [HttpGet("{id}")]
@@ -41,8 +41,61 @@ namespace projekt.Controllers
                 return NotFound();
 
             var productResource = mapper.Map<Product, ProductResource>(product);
-            
+
             return Ok(productResource);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProduct([FromBody]SaveProductResource productResource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var product = mapper.Map<SaveProductResource, Product>(productResource);
+
+            repository.Add(product);
+            await unitOfWork.CompleteAsync();
+
+            product = await repository.GetProductById(product.Id);
+
+            var result = mapper.Map<Product, ProductResource>(product);
+
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] SaveProductResource productResource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var product = await repository.GetProductById(id);
+
+            if (product == null)
+                return NotFound();
+
+            mapper.Map<SaveProductResource, Product>(productResource, product);
+
+            await unitOfWork.CompleteAsync();
+
+            product = await repository.GetProductById(product.Id);
+            var result = mapper.Map<Product, ProductResource>(product);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await repository.GetProductById(id, false);
+
+            if(product == null)
+                return NotFound();
+
+            repository.Remove(product);
+            await unitOfWork.CompleteAsync();
+
+            return Ok(id);
         }
 
     }

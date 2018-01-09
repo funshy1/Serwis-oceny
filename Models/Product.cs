@@ -12,5 +12,7 @@ namespace projekt.Models
         public string UserId { get; set; }
         public IEnumerable<Review> Reviews { get; set; }
         public Category Category { get; set; }
+        public int CategoryId { get; set; }
+
     }
 }

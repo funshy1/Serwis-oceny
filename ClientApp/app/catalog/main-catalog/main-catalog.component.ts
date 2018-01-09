@@ -16,8 +16,8 @@ export class MainCatalogComponent implements OnInit {
   ngOnInit() {
     this.productService.getProducts()
     .subscribe(
-      products => {
-        this.products = products;
+      result => {
+        this.products = result.items;
       });
   }
 
