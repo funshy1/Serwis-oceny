@@ -17,11 +17,15 @@ export class AuthService {
     scope: 'openid profile app_metadata'
   });
 
-  constructor(public router: Router) {}
+  constructor(public router: Router) {
+    if (localStorage.getItem('profile'))
+      this.userProfile = JSON.parse(localStorage.getItem('profile') || '');
+    if (this.userProfile && this.userProfile['https://dtas:auth0:com/app_metadata'])
+       this.isAdmin = this.userProfile['https://dtas:auth0:com/app_metadata'].isAdmin;
+  }
 
   public login(): void {
     this.auth0.authorize();
-
   }
 
   public handleAuthentication(): void {
@@ -29,9 +33,6 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        if (!this.userProfile && this.isAuthenticated()) {
-          this.getProfile((err: any, profile: any) => {});
-        }
         this.router.navigate(['/home']);
       } else if (err) {
         this.router.navigate(['/home']);
@@ -45,12 +46,18 @@ export class AuthService {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+    if (!this.userProfile && this.isAuthenticated()) {
+      this.getProfile((err: any, profile: any) => {
+        localStorage.setItem('profile', JSON.stringify(profile));
+      });
+    }
   }
 
   public logout(): void {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('profile');
     this.userProfile = null;
     this.router.navigate(['/']);
   }
@@ -62,7 +69,7 @@ export class AuthService {
 
   public getProfile(cb: any): void {
     const accessToken = localStorage.getItem('access_token');
-    
+
     if (!accessToken) {
       throw new Error('Access token must exist to fetch profile');
     }
@@ -71,7 +78,7 @@ export class AuthService {
       if (profile) {
         this.userProfile = profile;
         if (profile['https://dtas:auth0:com/app_metadata'])
-          this.isAdmin = profile['https://dtas:auth0:com/app_metadata'].isAdmin;
+        this.isAdmin = profile['https://dtas:auth0:com/app_metadata'].isAdmin;
       }
       cb(err, profile);
     });
