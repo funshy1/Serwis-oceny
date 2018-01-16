@@ -1,13 +1,12 @@
-using System.Collections.Generic;
-
 namespace projekt.Models
 {
     public class User
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public int PhoneNumber { get; set; }
-        public string PictureUrl { get; set; }
+        public string user_id { get; set; }
+        public string last_login { get; set; }
+        public string updated_at { get; set; }
+        public string email { get; set; }
+        public string name { get; set; }
+        public UserData user_metadata { get; set; }
     }
 }

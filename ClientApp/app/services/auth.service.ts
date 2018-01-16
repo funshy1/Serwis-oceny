@@ -14,7 +14,7 @@ export class AuthService {
     responseType: 'token id_token',
     audience: 'https://dtas.auth0.com/userinfo',
     redirectUri: 'http://localhost:5000/home',
-    scope: 'openid profile app_metadata'
+    scope: 'openid profile app_metadata user_metadata'
   });
 
   constructor(public router: Router) {
