@@ -12,6 +12,7 @@ namespace projekt.Mapping
             CreateMap<ProductQuery, ProductQueryResource>();
             CreateMap<Product, ProductResource>();
             CreateMap<Product, SaveProductResource>();
+            CreateMap<Review, ReviewResource>();
             CreateMap<User, UserResource>()
                 .ForMember(ur => ur.UserId, opt => opt.MapFrom(u => u.user_id))
                 .ForMember(ur => ur.LastLogin, opt => opt.MapFrom(u => u.last_login))
@@ -19,6 +20,8 @@ namespace projekt.Mapping
                 .ForMember(ur => ur.UserMetadata, opt => opt.MapFrom(u => u.user_metadata));
 
             //API to Domain
+            CreateMap<SaveReviewResource, Review>();
+            CreateMap<ReviewQueryResource, ReviewQuery>();
             CreateMap<ProductQueryResource, ProductQuery>();
             CreateMap<ProductResource, Product>();
             CreateMap<UserResource, SaveUserResource>()

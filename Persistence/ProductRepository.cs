@@ -48,7 +48,7 @@ namespace projekt.Persistence
             return result;
         }
 
-        public async Task<Product> GetProductById(int id, bool includeReviews = true)
+        public async Task<Product> GetProduct(int id, bool includeReviews = true)
         {
             if (!includeReviews)
                 return await context.Products.FindAsync(id);

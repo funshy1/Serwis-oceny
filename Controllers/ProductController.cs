@@ -35,7 +35,7 @@ namespace projekt.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
-            var product = await repository.GetProductById(id);
+            var product = await repository.GetProduct(id);
 
             if (product == null)
                 return NotFound();
@@ -56,7 +56,7 @@ namespace projekt.Controllers
             repository.Add(product);
             await unitOfWork.CompleteAsync();
 
-            product = await repository.GetProductById(product.Id);
+            product = await repository.GetProduct(product.Id);
 
             var result = mapper.Map<Product, ProductResource>(product);
 
@@ -69,7 +69,7 @@ namespace projekt.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var product = await repository.GetProductById(id);
+            var product = await repository.GetProduct(id);
 
             if (product == null)
                 return NotFound();
@@ -78,7 +78,7 @@ namespace projekt.Controllers
 
             await unitOfWork.CompleteAsync();
 
-            product = await repository.GetProductById(product.Id);
+            product = await repository.GetProduct(product.Id);
             var result = mapper.Map<Product, ProductResource>(product);
 
             return Ok(result);
@@ -87,7 +87,7 @@ namespace projekt.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await repository.GetProductById(id, false);
+            var product = await repository.GetProduct(id, false);
 
             if(product == null)
                 return NotFound();

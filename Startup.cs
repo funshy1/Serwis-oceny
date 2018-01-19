@@ -43,6 +43,7 @@ namespace dotnetapp
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddDbContext<ServiceDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
