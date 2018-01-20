@@ -62,5 +62,30 @@ namespace projekt.Persistence
 
             return result;
         }
+
+        public void SetRating(Review review, bool onAdd) {
+            var ratings = context.Reviews.Where(r => r.ProductId == review.ProductId).Select(r => r.Rating);
+
+            var sum = ratings.Sum();
+            var count = ratings.Count();
+
+            if (onAdd) {
+                sum += review.Rating;
+                count += 1;
+            } else {
+                sum -= review.Rating;
+                count -= 1;
+            }
+
+            var product = context.Products.Where(p => p.Id == review.ProductId).SingleOrDefault();
+            product.Rating = sum / count;
+        }
+
+        public void SetRating(Review review) {
+            var ratings = context.Reviews.Where(r => r.ProductId == review.ProductId).Select(r => r.Rating);
+
+            var product = context.Products.Where(p => p.Id == review.ProductId).SingleOrDefault();
+            product.Rating = ratings.Sum() / ratings.Count();
+        }
     }
 }

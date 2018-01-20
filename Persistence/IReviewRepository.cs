@@ -10,5 +10,7 @@ namespace projekt.Persistence
         Task<Review> GetReview(int id);
         void Add(Review review);
         void Remove(Review review);
+        void SetRating(Review review, bool onAdd);
+        void SetRating(Review review);
     }
 }

@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using projekt.Controllers.Resources;
 using projekt.Models;
 using projekt.Persistence;
@@ -14,9 +16,11 @@ namespace projekt.Controllers
         private readonly IReviewRepository repository;
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
+        private readonly ILogger<ReviewController> logger;
 
-        public ReviewController(IReviewRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
+        public ReviewController(IReviewRepository repository, IMapper mapper, IUnitOfWork unitOfWork, ILogger<ReviewController> logger)
         {
+            this.logger = logger;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.repository = repository;
@@ -51,6 +55,7 @@ namespace projekt.Controllers
             var review = mapper.Map<SaveReviewResource, Review>(reviewResource);
 
             repository.Add(review);
+            repository.SetRating(review, onAdd: true);
             await unitOfWork.CompleteAsync();
 
             review = await repository.GetReview(reviewResource.Id);
@@ -69,6 +74,7 @@ namespace projekt.Controllers
                 return NotFound();
 
             repository.Remove(review);
+            repository.SetRating(review, onAdd: false);
             await unitOfWork.CompleteAsync();
 
             return Ok(id);
@@ -87,6 +93,8 @@ namespace projekt.Controllers
 
             mapper.Map<SaveReviewResource, Review>(reviewResource, review);
 
+            repository.SetRating(review);
+            
             await unitOfWork.CompleteAsync();
 
             review = await repository.GetReview(review.Id);

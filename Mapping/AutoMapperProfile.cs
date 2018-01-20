@@ -20,7 +20,8 @@ namespace projekt.Mapping
                 .ForMember(ur => ur.UserMetadata, opt => opt.MapFrom(u => u.user_metadata));
 
             //API to Domain
-            CreateMap<SaveReviewResource, Review>();
+            CreateMap<SaveReviewResource, Review>()
+                .ForMember(r => r.Id, opt => opt.Ignore());
             CreateMap<ReviewQueryResource, ReviewQuery>();
             CreateMap<ProductQueryResource, ProductQuery>();
             CreateMap<ProductResource, Product>();
