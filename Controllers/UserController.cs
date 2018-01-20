@@ -45,7 +45,7 @@ namespace projekt.Controllers
             return Ok(userResource);
         }
 
-        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateUser(string id, [FromBody]UserResource userResource)
         {
             if (!ModelState.IsValid)
